@@ -26,6 +26,12 @@
       <groupId>punit</groupId>
       <artifactId>tp-core</artifactId>
       <version>${tp-core.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>*</groupId>
+          <artifactId>*</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
     <!-- Jasper -->
@@ -40,11 +46,13 @@
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>${junit.version}</version>
+      <scope>test</scope>
     </dependency>
     <!--<dependency>-->
       <!--<groupId>aunit</groupId>-->
       <!--<artifactId>aunit</artifactId>-->
       <!--<version>${aunit.version}</version>-->
+      <!--<scope>test</scope>-->
     <!--</dependency>-->
   </dependencies>
 
