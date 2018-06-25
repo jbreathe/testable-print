@@ -43,7 +43,7 @@ public class JasperTestablePrintForm implements TestablePrintForm<String> {
             JRBaseTextField textField = (JRBaseTextField) child;
             association.put(
                     textField.getUUID(),
-                    ((JRBaseTextField) child).getExpression().getChunks()[0].getText()
+                    textField.getExpression().getChunks()[0].getText()
             );
         }
     }
