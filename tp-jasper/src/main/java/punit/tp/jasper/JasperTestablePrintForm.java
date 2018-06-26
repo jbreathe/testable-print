@@ -23,7 +23,7 @@ public class JasperTestablePrintForm implements TestablePrintForm<String> {
     }
 
     @Override
-    public PrintFormField getField(String id) {
+    public PrintFormField field(String id) {
         for (JRPrintPage page: jasperPrint.getPages()) {
             for (JRPrintElement element: page.getElements()) {
                 if (association.containsKey(element.getUUID())) {

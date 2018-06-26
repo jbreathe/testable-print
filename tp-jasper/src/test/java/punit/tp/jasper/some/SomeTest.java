@@ -19,6 +19,6 @@ public class SomeTest {
         params.put("SongName", "I believe I can fly!");
         JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, params, new JREmptyDataSource());
         JasperTestablePrintForm printForm = new JasperTestablePrintForm(jasperReport, jasperPrint);
-        assertEquals("I believe I can fly!", printForm.getField("SongName").value());
+        assertEquals("I believe I can fly!", printForm.field("SongName").value());
     }
 }
