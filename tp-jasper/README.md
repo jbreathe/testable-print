@@ -1,6 +1,6 @@
 Usage example:
 
-```
+```java
 InputStream is = SomeTest.class.getResourceAsStream("/Some.jrxml");
 JasperReport jasperReport = JasperCompileManager.compileReport(is);
 Map<String, Object> params = new HashMap<>();
