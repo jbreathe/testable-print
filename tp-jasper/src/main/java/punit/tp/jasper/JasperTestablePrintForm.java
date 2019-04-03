@@ -1,12 +1,12 @@
 package punit.tp.jasper;
 
 import net.sf.jasperreports.engine.*;
-import net.sf.jasperreports.engine.base.JRBaseTextField;
 import net.sf.jasperreports.engine.fill.JRTemplatePrintText;
 import punit.tp.core.PrintFormField;
 import punit.tp.core.TestablePrintForm;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -47,10 +47,18 @@ public class JasperTestablePrintForm implements TestablePrintForm<String> {
 
     private Map<UUID, String> getAssociations(JRBand band) {
         Map<UUID, String> res = new HashMap<>();
-        for (JRChild child : band.getChildren()) {
-            JRBaseTextField textField = (JRBaseTextField) child;
-            res.put(textField.getUUID(),
-                    textField.getExpression().getChunks()[0].getText());
+        List<JRChild> children = band.getChildren();
+        for (JRChild child : children) {
+            // only JRTextField's supported for now
+            if (!(child instanceof JRTextField)) {
+                continue;
+            }
+            JRTextField textField = (JRTextField) child;
+            JRExpressionChunk[] chunks = textField.getExpression().getChunks();
+            if (chunks.length < IntVal.ONE) {
+                continue;
+            }
+            res.put(textField.getUUID(), chunks[IntVal.ZERO].getText());
         }
         return res;
     }
@@ -65,6 +73,14 @@ public class JasperTestablePrintForm implements TestablePrintForm<String> {
         @Override
         public String value() {
             return value;
+        }
+    }
+
+    private static final class IntVal {
+        private static final int ZERO = 0;
+        private static final int ONE = 1;
+
+        private IntVal() {
         }
     }
 }
