@@ -14,7 +14,7 @@ public class JasperTestablePrintForm implements TestablePrintForm<String> {
     private final JasperReport jasperReport;
     private final JasperPrint jasperPrint;
 
-    private Map<UUID, String> association = new HashMap<>();
+    private Map<UUID, String> associations = new HashMap<>();
 
     public JasperTestablePrintForm(JasperReport jasperReport, JasperPrint jasperPrint) {
         this.jasperReport = jasperReport;
@@ -24,10 +24,10 @@ public class JasperTestablePrintForm implements TestablePrintForm<String> {
 
     @Override
     public PrintFormField field(String id) {
-        for (JRPrintPage page: jasperPrint.getPages()) {
-            for (JRPrintElement element: page.getElements()) {
-                if (association.containsKey(element.getUUID())) {
-                    String fieldName = association.get(element.getUUID());
+        for (JRPrintPage page : jasperPrint.getPages()) {
+            for (JRPrintElement element : page.getElements()) {
+                if (associations.containsKey(element.getUUID())) {
+                    String fieldName = associations.get(element.getUUID());
                     if (fieldName.equals(id)) {
                         String fullText = ((JRTemplatePrintText) element).getFullText();
                         return new JasperPrintFormField(fullText);
@@ -39,13 +39,20 @@ public class JasperTestablePrintForm implements TestablePrintForm<String> {
     }
 
     private void parse() {
-        for (JRChild child: jasperReport.getTitle().getChildren()) {
-            JRBaseTextField textField = (JRBaseTextField) child;
-            association.put(
-                    textField.getUUID(),
-                    textField.getExpression().getChunks()[0].getText()
-            );
+        JRBand[] allBands = jasperReport.getAllBands();
+        for (JRBand band : allBands) {
+            associations.putAll(getAssociations(band));
         }
+    }
+
+    private Map<UUID, String> getAssociations(JRBand band) {
+        Map<UUID, String> res = new HashMap<>();
+        for (JRChild child : band.getChildren()) {
+            JRBaseTextField textField = (JRBaseTextField) child;
+            res.put(textField.getUUID(),
+                    textField.getExpression().getChunks()[0].getText());
+        }
+        return res;
     }
 
     private class JasperPrintFormField implements PrintFormField {
