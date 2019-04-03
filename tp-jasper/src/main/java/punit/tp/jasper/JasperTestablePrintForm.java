@@ -1,7 +1,6 @@
 package punit.tp.jasper;
 
 import net.sf.jasperreports.engine.*;
-import net.sf.jasperreports.engine.fill.JRTemplatePrintText;
 import punit.tp.core.PrintFormField;
 import punit.tp.core.TestablePrintForm;
 
@@ -26,10 +25,14 @@ public class JasperTestablePrintForm implements TestablePrintForm<String> {
     public PrintFormField field(String id) {
         for (JRPrintPage page : jasperPrint.getPages()) {
             for (JRPrintElement element : page.getElements()) {
+                // only JRPrintText's supported for now
+                if (!(element instanceof JRPrintText)) {
+                    continue;
+                }
                 if (associations.containsKey(element.getUUID())) {
                     String fieldName = associations.get(element.getUUID());
                     if (fieldName.equals(id)) {
-                        String fullText = ((JRTemplatePrintText) element).getFullText();
+                        String fullText = ((JRPrintText) element).getFullText();
                         return new JasperPrintFormField(fullText);
                     }
                 }
