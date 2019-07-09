@@ -1,6 +1,6 @@
 # Testable Print
 
-Small library for simple access to the fields in compiled (binary) print forms.
+Small library for simple access to the fields in compiled print forms.
 
 ## Jasper Testable Print
 
