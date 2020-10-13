@@ -17,7 +17,7 @@
     <tp-core.version>1.0-SNAPSHOT</tp-core.version>
     <jasperreports.version>6.5.1</jasperreports.version>
     <!-- Test -->
-    <junit.version>4.12</junit.version>
+    <junit.version>4.13.1</junit.version>
   </properties>
 
   <dependencies>
